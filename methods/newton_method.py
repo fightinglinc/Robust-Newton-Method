@@ -69,7 +69,12 @@ def main(coefficients, real_part, imagine_part):
 
     x0 = x
     print("the start point is:", x0)
-    result['start_point'] = x0
+
+    if x0.imag == 0j:
+        result['start_point'] = x0.real
+    else:
+        result['start_point'] = x0
+
     error = 10 ** 8
     iteration = 0
     while error > 10 ** -6:
@@ -122,9 +127,14 @@ def main(coefficients, real_part, imagine_part):
     print("\nSo after {} iterations, we get the final result of polynomial: \n\n {} \n\nis: {}".format(iteration, p_z,
                                                                                                        x0))
     result['iteration'] = iteration
-    result['root'] = x0
-    # result['error'] = error
     result['flag'] = flag
+    # result['error'] = error
+
+    if round(x0.imag, 2) * 1j == 0j:
+        result['root'] = (round(x0.real, 2))
+    else:
+        result['root'] = round(x0.real, 2) + round(x0.imag, 2) * 1j
+
     return result
 
 

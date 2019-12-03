@@ -98,7 +98,11 @@ def newton_iteration(p, x, p_z, result):
         iteration += 1
         print("the error after {} iterations is: {}".format(iteration, error))
 
-    result['roots'].append(x0)
+    if round(x0.imag, 2) * 1j == 0j:
+        result['roots'].append(round(x0.real, 2))
+    else:
+        result['roots'].append(round(x0.real, 2) + round(x0.imag, 2) * 1j)
+
     print("\nSo after {} iterations, "
           "we get the final result of polynomial: \n\n {} \n\nis: {}".format(iteration, p_z, x0))
 
@@ -119,7 +123,12 @@ def find_all_roots(coefficients, real, imagine):
     x = complex(x, y)
     # save result, used for frontend
     result = dict()
-    result.update({'start_point': x})
+
+    if x.imag == 0j:
+        result['start_point'] = x.real
+    else:
+        result['start_point'] = x
+
     result.update({'roots': []})
     total_iterations = 0
 
