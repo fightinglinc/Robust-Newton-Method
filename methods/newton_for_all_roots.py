@@ -101,7 +101,7 @@ def newton_iteration(p, x, p_z, result):
     if round(x0.imag, 2) * 1j == 0j:
         result['roots'].append(round(x0.real, 2))
     else:
-        result['roots'].append(round(x0.real, 2) + round(x0.imag, 2) * 1j)
+        result['roots'].append(str(round(x0.real, 2) + round(x0.imag, 2) * 1j).replace("j", "i"))
 
     print("\nSo after {} iterations, "
           "we get the final result of polynomial: \n\n {} \n\nis: {}".format(iteration, p_z, x0))
@@ -127,7 +127,7 @@ def find_all_roots(coefficients, real, imagine):
     if x.imag == 0j:
         result['start_point'] = x.real
     else:
-        result['start_point'] = x
+        result['start_point'] = str(x).replace("j", "i")
 
     result.update({'roots': []})
     total_iterations = 0

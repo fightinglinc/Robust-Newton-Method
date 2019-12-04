@@ -73,7 +73,7 @@ def main(coefficients, real_part, imagine_part):
     if x0.imag == 0j:
         result['start_point'] = x0.real
     else:
-        result['start_point'] = x0
+        result['start_point'] = str(x0).replace("j", "i")
 
     error = 10 ** 8
     iteration = 0
@@ -131,9 +131,9 @@ def main(coefficients, real_part, imagine_part):
     # result['error'] = error
 
     if round(x0.imag, 2) * 1j == 0j:
-        result['root'] = (round(x0.real, 2))
+        result['root'] = round(x0.real, 2)
     else:
-        result['root'] = round(x0.real, 2) + round(x0.imag, 2) * 1j
+        result['root'] = str(round(x0.real, 2) + round(x0.imag, 2) * 1j).replace("j", "i")
 
     return result
 
