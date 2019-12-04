@@ -133,7 +133,7 @@ def main(coefficients, real_part, imagine_part):
     if round(x0.imag, 2) * 1j == 0j:
         result['root'] = round(x0.real, 2)
     else:
-        result['root'] = str(round(x0.real, 2) + round(x0.imag, 2) * 1j).replace("j", "i")
+        result['root'] = str(round(x0.real, 4) + round(x0.imag, 4) * 1j).replace("j", "i")
 
     return result
 
