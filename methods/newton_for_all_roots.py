@@ -98,6 +98,7 @@ def newton_iteration(p, x, p_z, result):
             print("in this iteration we use robust Newton's Method")
 
         iteration += 1
+        result['errors'].append(error)
         print("the error after {} iterations is: {}".format(iteration, error))
 
     if round(x0.imag, 2) * 1j == 0j:
@@ -135,6 +136,8 @@ def find_all_roots(coefficients, real, imagine):
         result['start_point'] = str(point).replace("j", "i")
 
     result.update({'roots': []})
+    result.update({'steps': []})
+    result.update({'errors': []})
     total_iterations = 0
 
     # 1 -3 3 -3 2 x = 1 + 1i
@@ -148,6 +151,7 @@ def find_all_roots(coefficients, real, imagine):
         p_z = quotient
         times = times - 1
 
+    result['steps'] = list(range(1, total_iterations + 1))
     result.update({'total_iterations': total_iterations})
     return result
 

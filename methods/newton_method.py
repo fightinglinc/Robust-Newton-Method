@@ -75,6 +75,10 @@ def main(coefficients, real_part, imagine_part):
     else:
         result['start_point'] = str(x0).replace("j", "i")
 
+    result.update({'steps': []})
+    result.update({'errors': []})
+
+
     error = 10 ** 8
     iteration = 0
     while error > 10 ** -6:
@@ -122,13 +126,14 @@ def main(coefficients, real_part, imagine_part):
             print("in this iteration we use robust Newton's Method")
 
         iteration += 1
+        result['steps'].append(iteration)
+        result['errors'].append(error)
         print("the error after {} iterations is: {}".format(iteration, error))
 
     print("\nSo after {} iterations, we get the final result of polynomial: \n\n {} \n\nis: {}".format(iteration, p_z,
                                                                                                        x0))
     result['iteration'] = iteration
     result['flag'] = flag
-    # result['error'] = error
 
     if round(x0.imag, 2) * 1j == 0j:
         result['root'] = round(x0.real, 4)
