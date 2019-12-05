@@ -88,7 +88,7 @@ def main(coefficients, real_part, imagine_part):
         p_z1 = np.polyder(p_z, 0)(x1)
 
         if abs(p_z1) < abs(p_z0):
-            error = abs((x1 - x0).real)
+            error = abs((x1 - x0))
             x0 = x1
         # use robust newton
         else:
@@ -117,7 +117,7 @@ def main(coefficients, real_part, imagine_part):
             else:
                 Np_x0 = x0 + Ck / 3 * uk / abs(uk) * ei
 
-            error = abs((Np_x0 - x0).real)
+            error = abs((Np_x0 - x0))
             x0 = Np_x0
             print("in this iteration we use robust Newton's Method")
 
@@ -131,7 +131,7 @@ def main(coefficients, real_part, imagine_part):
     # result['error'] = error
 
     if round(x0.imag, 2) * 1j == 0j:
-        result['root'] = round(x0.real, 2)
+        result['root'] = round(x0.real, 4)
     else:
         result['root'] = str(round(x0.real, 4) + round(x0.imag, 4) * 1j).replace("j", "i")
 

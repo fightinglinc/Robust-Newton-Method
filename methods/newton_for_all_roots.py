@@ -4,7 +4,7 @@ import numpy as np
 
 
 def calculate_k(p, p_z, x0):
-    for i in range(1, len(p) + 1):
+    for i in range(1, len(p)):
         k = np.polyder(p_z, i)(x0)
         if k != 0:
             break
@@ -25,27 +25,27 @@ def factorial(num):
 
 def calculate_theta(ck, gamma, delta, k):
     if ck == abs(gamma) and gamma < 0:
-        theta = 0
+        theta = 0.0
     elif ck == abs(gamma) and gamma > 0:
         theta = math.pi / k
     elif ck == abs(delta) and delta < 0:
-        theta = math.pi / (2 * k)
+        theta = math.pi / (2.0 * k)
     elif ck == abs(delta) and delta > 0:
-        theta = 3 * math.pi / (2 * k)
+        theta = 3.0 * math.pi / (2.0 * k)
     return theta
 
 
 def calculate_A(p, p_z, x0):
-    maximum = 0
+    maximum = 0.0
     for j in range(len(p) + 2):
         inner = abs(np.polyder(p_z, j)(x0)) / factorial(j)
-        if (maximum < inner):
+        if maximum < inner:
             maximum = inner
     return maximum
 
 
 def calculate_ei(theta):
-    ei = complex(math.cos(theta) + math.sin(theta))
+    ei = complex(math.cos(theta), math.sin(theta))
     return ei
 
 
@@ -63,7 +63,8 @@ def newton_iteration(p, x, p_z, result):
         p_z1 = np.polyder(p_z, 0)(x1)
 
         if abs(p_z1) < abs(p_z0):
-            error = abs((x1 - x0).real)
+            # error = abs((x1 - x0))
+            error = abs(np.polyder(p_z, 0)(x1) - np.polyder(p_z, 0)(x0))
             x0 = x1
         # use robust newton
         else:
@@ -71,7 +72,7 @@ def newton_iteration(p, x, p_z, result):
 
             p_z0 = np.polyder(p_z, 0)(x0)
             p_k_z0_trans = np.polyder(p_z, k)(x0).conjugate()
-            uk = 1 / factorial(k) * p_z0 * p_k_z0_trans
+            uk = 1.0 / factorial(k) * p_z0 * p_k_z0_trans
 
             gamma = 2 * (uk ** (k - 1)).real
             delta = -2 * (uk ** (k - 1)).imag
@@ -81,17 +82,18 @@ def newton_iteration(p, x, p_z, result):
 
             A = calculate_A(p, p_z, x0)
 
-            Ck = ck * (abs(uk) ** (2 - k)) / (6 * A ** 2)
+            Ck = ck * (abs(uk) ** (2.0 - k)) / (6.0 * A ** 2)
 
             ei = calculate_ei(theta)
 
-            if abs(uk) == 0:
+            if abs(uk) == 0.0:
                 Np_x0 = x0
-                break
+                # break
             else:
-                Np_x0 = x0 + Ck / 3 * uk / abs(uk) * ei
+                Np_x0 = x0 + Ck / 3.0 * uk / abs(uk) * ei
 
-            error = abs((Np_x0 - x0).real)
+            # error = abs((Np_x0 - x0))
+            error = abs(np.polyder(p_z, 0)(Np_x0) - np.polyder(p_z, 0)(x0))
             x0 = Np_x0
             print("in this iteration we use robust Newton's Method")
 
@@ -99,7 +101,7 @@ def newton_iteration(p, x, p_z, result):
         print("the error after {} iterations is: {}".format(iteration, error))
 
     if round(x0.imag, 2) * 1j == 0j:
-        result['roots'].append(round(x0.real, 2))
+        result['roots'].append(round(x0.real, 4))
     else:
         result['roots'].append(str(round(x0.real, 4) + round(x0.imag, 4) * 1j).replace("j", "i"))
 
@@ -120,6 +122,9 @@ def find_all_roots(coefficients, real, imagine):
     x = float(real)
     print("Input the imagine part of start point x0: ")
     y = float(imagine)
+    point = complex(x, y)
+    if x == y:
+        y += 0.1
     x = complex(x, y)
     # save result, used for frontend
     result = dict()
@@ -127,7 +132,7 @@ def find_all_roots(coefficients, real, imagine):
     if x.imag == 0j:
         result['start_point'] = x.real
     else:
-        result['start_point'] = str(x).replace("j", "i")
+        result['start_point'] = str(point).replace("j", "i")
 
     result.update({'roots': []})
     total_iterations = 0

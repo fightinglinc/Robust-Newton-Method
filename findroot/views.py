@@ -1,3 +1,4 @@
+import numpy as np
 from django.shortcuts import render, HttpResponse
 
 from methods.newton_for_all_roots import find_all_roots
@@ -24,8 +25,7 @@ def find_root(request):
             return render(request, 'result.html', {'start_point': result.get('start_point'),
                                                    'iterations': result.get('iteration'),
                                                    'root': result.get('root'),
-                                                   # 'error': result.get('error'),
-                                                   'method': method
+                                                   'method': method,
                                                    })
         elif 'all-roots' in request.POST:
             result = find_all_roots(coefficients, real, imagine)
