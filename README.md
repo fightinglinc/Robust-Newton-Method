@@ -1,5 +1,5 @@
 # Robust Newton Method
-We implement ***Newton Method*** and ***Robust Newton Method*** for finding roots of polynomials.
+We implement ***Newton Method*** and ***Robust Newton Method*** to find roots of polynomials.
 
 # Requirements
 * Python (3.6)
